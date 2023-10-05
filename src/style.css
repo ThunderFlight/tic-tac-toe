@@ -1,0 +1,13 @@
+.table-tic-tac-toe {
+    width: 300px;
+    height: 300px;
+}
+
+.line{
+    border: 1px solid black;
+  
+}  
+
+.cell{
+  border: 1px solid black;
+}
