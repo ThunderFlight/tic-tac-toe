@@ -1,16 +1,16 @@
 import './style.css';
 
-const arrWin = [
-  ['0,0', '0,1', '0,2'],
-  ['1,0', '1,1', '1,2'],
-  ['2,0', '2,1', '2,2'],
-  ['0,0', ' 1,0', '2,0'],
-  ['0,2', '1,2', '2,2'],
-  ['0,0', '1,1', '2,2'],
-  ['0,2', '1,1', '2,0'],
-];
-let countBlack = 0;
-let countBlue = 0;
+// const arrWin = [
+//   ['0,0', '0,1', '0,2'],
+//   ['1,0', '1,1', '1,2'],
+//   ['2,0', '2,1', '2,2'],
+//   ['0,0', ' 1,0', '2,0'],
+//   ['0,2', '1,2', '2,2'],
+//   ['0,0', '1,1', '2,2'],
+//   ['0,2', '1,1', '2,0'],
+// ];
+// let countBlack = 0;
+// let countBlue = 0;
 const obj = {};
 const arrayWins = [];
 let countFriendGame = 0;
@@ -25,7 +25,7 @@ const table = document.querySelector('.table-tic-tac-toe');
 const buttonRestart = document.querySelector('.button-restart');
 const buttonMenu = document.querySelector('.button-back');
 const modalEnd = document.querySelector('.modal-end');
-const winMessage = document.querySelector('.win-message');
+// const winMessage = document.querySelector('.win-message');
 const prePlayMenu = document.querySelector('.pre-play-menu');
 const chooseBot = document.querySelector('.input-choose-bot');
 const chooseFriend = document.querySelector('.input-choose-friend');
@@ -39,70 +39,8 @@ function isEmpty(cords) {
   return objCords !== 'black' && objCords !== 'blue';
 }
 
-function gameEnd(message) {
-  arrayWins.push(message);
-  localStorage.setItem('wins', JSON.stringify(arrayWins));
-  winsText.innerHTML = '';
-  winsText.innerHTML = JSON.parse(localStorage.getItem('wins')).map((item) => item);
-  document.body.appendChild(winsText);
-  winMessage.innerHTML = message;
-  modalEnd.style.display = 'null';
-  modalEnd.style.display = 'flex';
-}
-
 function checkWin() {
-  for (let i = 0; i < arrWin.length; i += 1) {
-    for (let j = 0; j < arrWin[i].length; j += 1) {
-      if (cordsUsers.userBlack.includes(arrWin[i][j])) {
-        countBlack += 1;
-      }
 
-      if (cordsUsers.userBlue.includes(arrWin[i][j])) {
-        countBlue += 1;
-      }
-
-      if (countBlack >= 3) {
-        return gameEnd('black win');
-      }
-
-      if (countBlue >= 3) {
-        return gameEnd('blue win');
-      }
-
-      if (counter <= 0) {
-        return gameEnd('draw');
-      }
-    }
-
-    console.log(`black: ${countBlack}; blue: ${countBlue}; counter: ${counter}`);
-
-    countBlue = 0;
-    countBlack = 0;
-  }
-
-  return '';
-}
-
-function botGame(cord) {
-  checkWin();
-  arrayWins.splice(0, arrayWins.length);
-  localStorage.setItem('wins', []);
-  obj[cord].style.backgroundColor = 'black';
-  cordsUsers.userBlack.push(cord);
-  counter -= 2;
-  checkWin();
-  if (counter < 0) {
-    return;
-  }
-
-  let randomCords = randomTic();
-  while (!isEmpty(randomCords)) {
-    randomCords = randomTic();
-  }
-
-  cordsUsers.userBlue.push(randomCords);
-  obj[randomCords].style.backgroundColor = 'blue';
-  checkWin();
 }
 
 function friendGame(cord) {
@@ -123,6 +61,30 @@ function friendGame(cord) {
   }
 
   checkWin();
+}
+
+function botGame(cord) {
+  console.log(cord);
+  randomTic();
+  // checkWin();
+  // arrayWins.splice(0, arrayWins.length);
+  // localStorage.setItem('wins', []);
+  // obj[cord].style.backgroundColor = 'black';
+  // cordsUsers.userBlack.push(cord);
+  // counter -= 2;
+  // checkWin();
+  // if (counter < 0) {
+  //   return;
+  // }
+
+  // let randomCords = randomTic();
+  // while (!isEmpty(randomCords)) {
+  //   randomCords = randomTic();
+  // }
+
+  // cordsUsers.userBlue.push(randomCords);
+  // obj[randomCords].style.backgroundColor = 'blue';
+  // checkWin();
 }
 
 function createTableCross(func) {
@@ -170,8 +132,8 @@ buttonRestart.addEventListener('click', () => {
   }
 
   counter = 8;
-  countBlack = 0;
-  countBlue = 0;
+  // countBlack = 0;
+  // countBlue = 0;
   cordsUsers.userBlack = [];
   cordsUsers.userBlue = [];
   countFriendGame = 0;
@@ -186,8 +148,8 @@ buttonMenu.addEventListener('click', () => {
   }
 
   counter = 8;
-  countBlack = 0;
-  countBlue = 0;
+  // countBlack = 0;
+  // countBlue = 0;
   cordsUsers.userBlack = [];
   cordsUsers.userBlue = [];
   countFriendGame = 0;
@@ -196,3 +158,47 @@ buttonMenu.addEventListener('click', () => {
   localStorage.setItem('wins', '');
   winsText.innerHTML = '';
 });
+
+// function gameEnd(message) {
+//   arrayWins.push(message);
+//   localStorage.setItem('wins', JSON.stringify(arrayWins));
+//   winsText.innerHTML = '';
+//   winsText.innerHTML = JSON.parse(localStorage.getItem('wins')).map((item) => item);
+//   document.body.appendChild(winsText);
+//   winMessage.innerHTML = message;
+//   modalEnd.style.display = 'null';
+//   modalEnd.style.display = 'flex';
+// }
+
+// function checkWin() {
+//   for (let i = 0; i < arrWin.length; i += 1) {
+//     for (let j = 0; j < arrWin[i].length; j += 1) {
+//       if (cordsUsers.userBlack.includes(arrWin[i][j])) {
+//         countBlack += 1;
+//       }
+
+//       if (cordsUsers.userBlue.includes(arrWin[i][j])) {
+//         countBlue += 1;
+//       }
+
+//       if (countBlack >= 3) {
+//         return gameEnd('black win');
+//       }
+
+//       if (countBlue >= 3) {
+//         return gameEnd('blue win');
+//       }
+
+//       if (counter <= 0) {
+//         return gameEnd('draw');
+//       }
+//     }
+
+//     console.log(`black: ${countBlack}; blue: ${countBlue}; counter: ${counter}`);
+
+//     countBlue = 0;
+//     countBlack = 0;
+//   }
+
+//   return '';
+// }

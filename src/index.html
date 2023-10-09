@@ -6,6 +6,45 @@
     <title>Document</title>
   </head>
   <body>
-    <table class="table-tic-tac-toe"></table>
+    <main>
+      <form class="pre-play-menu" id="regime">
+        <button class="play-button" form="regime">Play</button>
+        <div class="choose-with-by-whom-play">
+          <div class="custom-input">
+            <input
+              class="input-choose-friend"
+              type="radio"
+              name="input-choose-game"
+              id="width-friend"
+              value="friend"
+              required />
+            <label for="with-friend" class="custom-label">play with your friend</label>
+          </div>
+          <div class="custom-input">
+            <input
+              class="input-choose-bot"
+              type="radio"
+              name="input-choose-game"
+              id="with-bot"
+              value="bot"
+              required />
+            <label for="with-bot">play with machine</label>
+          </div>
+        </div>
+      </form>
+      <div class="modal-end">
+        <div class="win-wrapper">
+          <p class="win-message"></p>
+          <div>
+            <button class="play-button button-restart">restart</button>
+            <button class="play-button button-back">menu</button>
+          </div>
+        </div>
+      </div>
+      <table class="table-tic-tac-toe"></table>
+    </main>
+    <footer>
+      
+    </footer>
   </body>
 </html>

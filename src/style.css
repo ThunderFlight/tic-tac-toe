@@ -1,13 +1,83 @@
-.table-tic-tac-toe {
-    width: 300px;
-    height: 300px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pre-play-menu{
+  position: absolute;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100vh;
+
+  background-color: aqua;
+}
+
+.choose-with-by-whom-play{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 500px;
+}
+
+.custom-input{
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.custom-input:last-child{
+  margin-right: 0;
+}
+
+.play-button{
+  cursor: pointer;
+  width: 80px;
+  padding: 10px;
+}
+
+.table-tic-tac-toe{
+  width: 300px;
+  height: 300px;
 }
 
 .line{
-    border: 1px solid black;
+  border: 1px solid black;
   
 }  
 
 .cell{
   border: 1px solid black;
+}
+
+.modal-end{
+  position: absolute;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: rgb(128 128 128 / 85%);
+  
+  .win-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 300px;
+    height: 200px;
+
+    background-color: white;
+  }
 }
