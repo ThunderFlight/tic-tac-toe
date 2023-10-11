@@ -15,7 +15,7 @@ let countBlue = 0;
 const obj = {};
 const arrayWins = [];
 let countFriendGame = 0;
-let counter = 8;
+let counter = 10;
 const cordsUsers = {
   userBlue: [],
   userBlack: [],
