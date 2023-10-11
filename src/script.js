@@ -2,9 +2,10 @@ import './style.css';
 
 const arrWin = [
   ['0,0', '0,1', '0,2'],
+  ['0,1', '1,1', '2,1'],
   ['1,0', '1,1', '1,2'],
   ['2,0', '2,1', '2,2'],
-  ['0,0', ' 1,0', '2,0'],
+  ['0,0', '1,0', '2,0'],
   ['0,2', '1,2', '2,2'],
   ['0,0', '1,1', '2,2'],
   ['0,2', '1,1', '2,0'],
@@ -14,7 +15,7 @@ let countBlue = 0;
 const obj = {};
 const arrayWins = [];
 let countFriendGame = 0;
-let counter = 10;
+let counter = 8;
 const cordsUsers = {
   userBlue: [],
   userBlack: [],
@@ -68,41 +69,17 @@ function checkWin() {
       if (countBlue >= 3) {
         return gameEnd('blue win');
       }
-
-      if (counter <= 0) {
-        return gameEnd('draw');
-      }
     }
-
-    console.log(`black: ${countBlack}; blue: ${countBlue}; counter: ${counter}`);
 
     countBlue = 0;
     countBlack = 0;
   }
 
-  return '';
-}
-
-function botGame(cord) {
-  checkWin();
-  arrayWins.splice(0, arrayWins.length);
-  localStorage.setItem('wins', []);
-  obj[cord].style.backgroundColor = 'black';
-  cordsUsers.userBlack.push(cord);
-  counter -= 2;
-  checkWin();
   if (counter < 0) {
-    return;
+    return gameEnd('draw');
   }
 
-  let randomCords = randomTic();
-  while (!isEmpty(randomCords)) {
-    randomCords = randomTic();
-  }
-
-  cordsUsers.userBlue.push(randomCords);
-  obj[randomCords].style.backgroundColor = 'blue';
-  checkWin();
+  return '';
 }
 
 function friendGame(cord) {
@@ -122,6 +99,30 @@ function friendGame(cord) {
     cordsUsers.userBlue.push(cord);
   }
 
+  checkWin();
+}
+
+function botGame(cord) {
+  arrayWins.splice(0, arrayWins.length);
+  localStorage.setItem('wins', []);
+  obj[cord].style.backgroundColor = 'black';
+  cordsUsers.userBlack.push(cord);
+  counter -= 1;
+  checkWin();
+  if (counter < 0) {
+    return;
+  }
+
+  let randomCords = randomTic();
+  while (!isEmpty(randomCords)) {
+    randomCords = randomTic();
+  }
+
+  cordsUsers.userBlue.push(randomCords);
+  // setTimeout(() => {
+  counter -= 1;
+  obj[randomCords].style.backgroundColor = 'blue';
+  // }, 200);
   checkWin();
 }
 
