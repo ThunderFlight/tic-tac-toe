@@ -5,6 +5,11 @@
   border: 0;
 }
 
+body{
+  background-image: url("./assets/star-wars-landscape-wallpapers-121180-589576-3287411.jpg");
+  background-size: cover;
+}
+
 .pre-play-menu{
   position: absolute;
   z-index: 1;
@@ -17,7 +22,8 @@
   width: 100%;
   height: 110vh;
 
-  background-color: aqua;
+  background-image: url("./assets/UY3C3zc.jpg");
+  background-size: cover;
 }
 
 .choose-with-by-whom-play{
@@ -27,11 +33,18 @@
   width: 500px;
 }
 
+.custom-label{
+  font-family: Kufam, sans-serif;
+  font-family: 'Martian Mono', monospace;
+  color:yellow;
+}
+
 .custom-input{
   display: flex;
   flex-direction: column;
   margin-right: 20px;
 }
+
 
 .custom-input:last-child{
   margin-right: 0;
@@ -41,6 +54,12 @@
   cursor: pointer;
   width: 80px;
   padding: 10px;
+  background-color: gold;
+}
+
+.play-button:hover{
+  background-color: yellow;
+  box-shadow: 0 -4px 37px 7px rgb(255 255 0 / 100%);
 }
 
 .table-tic-tac-toe{
@@ -65,7 +84,7 @@
   justify-content: center;
 
   width: 100%;
-  height: 100%;
+  height: 110vh;
 
   background-color: rgb(128 128 128 / 85%);
   

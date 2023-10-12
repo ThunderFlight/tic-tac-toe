@@ -36,8 +36,8 @@ function randomTic() {
 }
 
 function isEmpty(cords) {
-  const objCords = obj[cords].style.backgroundColor;
-  return objCords !== 'black' && objCords !== 'blue';
+  const objCords = obj[cords].style.backgroundImage;
+  return objCords !== 'url("./assets/Redstarbird.png")' && objCords !== 'url("./assets/r2d2.png")' && objCords !== 'url("./assets/empire-icon-21.png")';
 }
 
 function gameEnd(message) {
@@ -45,13 +45,13 @@ function gameEnd(message) {
   localStorage.setItem('wins', JSON.stringify(arrayWins));
   winsText.innerHTML = '';
   winsText.innerHTML = JSON.parse(localStorage.getItem('wins')).map((item) => item);
-  document.body.appendChild(winsText);
+  document.querySelector('.results').appendChild(winsText);
   winMessage.innerHTML = message;
   modalEnd.style.display = 'null';
   modalEnd.style.display = 'flex';
 }
 
-function checkWin() {
+function checkWin(empire, rebals, r2d2 = 'none') {
   for (let i = 0; i < arrWin.length; i += 1) {
     for (let j = 0; j < arrWin[i].length; j += 1) {
       if (cordsUsers.userBlack.includes(arrWin[i][j])) {
@@ -63,11 +63,11 @@ function checkWin() {
       }
 
       if (countBlack >= 3) {
-        return gameEnd('black win');
+        return gameEnd(rebals);
       }
 
       if (countBlue >= 3) {
-        return gameEnd('blue win');
+        return r2d2 === 'none' ? gameEnd(empire) : gameEnd(r2d2);
       }
     }
 
@@ -87,28 +87,36 @@ function friendGame(cord) {
   localStorage.setItem('wins', []);
   countFriendGame += 1;
   counter -= 1;
+
   if (counter < 0) {
     return;
   }
 
   if (countFriendGame % 2 === 0) {
-    obj[cord].style.backgroundColor = 'black';
+    obj[cord].style.backgroundImage = 'url("./assets/Redstarbird.png")';
+    obj[cord].style.backgroundSize = 'cover';
     cordsUsers.userBlack.push(cord);
   } else {
-    obj[cord].style.backgroundColor = 'blue';
+    obj[cord].style.backgroundImage = 'url("./assets/empire-icon-21.png")';
+    obj[cord].style.backgroundSize = 'cover';
     cordsUsers.userBlue.push(cord);
   }
 
-  checkWin();
+  checkWin('empire', 'rebals');
 }
 
 function botGame(cord) {
   arrayWins.splice(0, arrayWins.length);
   localStorage.setItem('wins', []);
-  obj[cord].style.backgroundColor = 'black';
-  cordsUsers.userBlack.push(cord);
-  counter -= 1;
-  checkWin();
+
+  if (isEmpty(cord)) {
+    obj[cord].style.backgroundImage = "url('./assets/Redstarbird.png')";
+    obj[cord].style.backgroundSize = 'cover';
+    cordsUsers.userBlack.push(cord);
+    counter -= 1;
+    checkWin('empire win', 'rebals win', 'r2d2 win');
+  }
+
   if (counter < 0) {
     return;
   }
@@ -121,9 +129,11 @@ function botGame(cord) {
   cordsUsers.userBlue.push(randomCords);
   // setTimeout(() => {
   counter -= 1;
-  obj[randomCords].style.backgroundColor = 'blue';
+  // obj[randomCords].style.backgroundColor = 'blue';
+  obj[randomCords].style.backgroundImage = "url('./assets/r2d2.png')";
+  obj[randomCords].style.backgroundSize = 'cover';
   // }, 200);
-  checkWin();
+  checkWin('empire win', 'rebals win', 'r2d2 win');
 }
 
 function createTableCross(func) {
@@ -154,8 +164,10 @@ function createTableCross(func) {
 
 prePlayMenu.addEventListener('submit', (event) => {
   if (chooseBot.checked === true) {
+    document.querySelector('body').style.backgroundImage = 'url("./assets/star-wars-landscape-wallpapers-121180-589576-3287411.jpg")';
     createTableCross(botGame);
   } else if (chooseFriend.checked === true) {
+    document.querySelector('body').style.backgroundImage = "url('./assets/1313954.jpeg')";
     createTableCross(friendGame);
   }
 
@@ -166,7 +178,7 @@ prePlayMenu.addEventListener('submit', (event) => {
 buttonRestart.addEventListener('click', () => {
   for (let i = 0; i < 3; i += 1) {
     for (let j = 0; j < 3; j += 1) {
-      obj[`${i},${j}`].style.backgroundColor = 'white';
+      obj[`${i},${j}`].style.backgroundImage = '';
     }
   }
 
@@ -182,7 +194,7 @@ buttonRestart.addEventListener('click', () => {
 buttonMenu.addEventListener('click', () => {
   for (let i = 0; i < 3; i += 1) {
     for (let j = 0; j < 3; j += 1) {
-      obj[`${i},${j}`].style.backgroundColor = 'white';
+      obj[`${i},${j}`].style.backgroundImage = '';
     }
   }
 
