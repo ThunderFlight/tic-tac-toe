@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kufam:wght@600&family=Martian+Mono:wght@700&display=swap"
+      rel="stylesheet" />
+    <title>Document</title>
+  <link rel="icon" href="favicon.ico"><script defer src="index.bundle.js"></script></head>
+  <body>
+    <main>
+      <form class="pre-play-menu" id="regime">
+        <button class="play-button" form="regime">Play</button>
+        <div class="choose-with-by-whom-play">
+          <div class="custom-input">
+            <input
+              class="input-choose-friend"
+              type="radio"
+              name="input-choose-game"
+              id="width-friend"
+              value="friend"
+              required />
+            <label for="with-friend" class="custom-label">PLAY WITH YOUR FRIEND</label>
+          </div>
+          <div class="custom-input">
+            <input
+              class="input-choose-bot"
+              type="radio"
+              name="input-choose-game"
+              id="with-bot"
+              value="bot"
+              checked
+              required />
+            <label for="with-bot" class="custom-label">PLAY WITH R2D2</label>
+          </div>
+        </div>
+      </form>
+      <div class="modal-end">
+        <div class="win-wrapper">
+          <p class="win-message"></p>
+          <div class="control-button">
+            <button class="play-button button-restart">restart</button>
+            <button class="play-button button-back">menu</button>
+          </div>
+        </div>
+        <table class="results"></table>
+      </div>
+      <table class="table-tic-tac-toe"></table>
+    </main>
+    <footer>
+      <a href="https://github.com/ThunderFlight" class="footer-github">Gentleman</a>
+      <a href="https://rs.school/js/" class="footer-rsschool"
+        ><img src="./assets/rs_school_js.svg"
+      /></a>
+    </footer>
+  </body>
+</html>
