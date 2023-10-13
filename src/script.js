@@ -21,7 +21,6 @@ const cordsUsers = {
   userBlack: [],
 };
 
-const winsText = document.createElement('p');
 const table = document.querySelector('.table-tic-tac-toe');
 const buttonRestart = document.querySelector('.button-restart');
 const buttonMenu = document.querySelector('.button-back');
@@ -43,12 +42,25 @@ function isEmpty(cords) {
 function gameEnd(message) {
   arrayWins.push(message);
   localStorage.setItem('wins', JSON.stringify(arrayWins));
-  winsText.innerHTML = '';
-  winsText.innerHTML = JSON.parse(localStorage.getItem('wins')).map((item) => item);
-  document.querySelector('.results').appendChild(winsText);
+  document.querySelector('.results').replaceChildren();
+  JSON.parse(localStorage.getItem('wins')).map((item) => {
+    const rowTr = document.createElement('tr');
+    const winsText = document.createElement('td');
+    winsText.innerHTML = item;
+    rowTr.appendChild(winsText);
+    return document.querySelector('.results').appendChild(rowTr);
+  });
+
   winMessage.innerHTML = message;
   modalEnd.style.display = 'null';
   modalEnd.style.display = 'flex';
+  if (message === 'rebals') {
+    modalEnd.className = 'modal-end-rebals';
+  }
+
+  if (message === 'empire') {
+    modalEnd.className = 'modal-end-empire';
+  }
 }
 
 function checkWin(empire, rebals, r2d2 = 'none') {
@@ -83,61 +95,59 @@ function checkWin(empire, rebals, r2d2 = 'none') {
 }
 
 function friendGame(cord) {
-  arrayWins.splice(0, arrayWins.length);
-  localStorage.setItem('wins', []);
   countFriendGame += 1;
   counter -= 1;
-
   if (counter < 0) {
-    return;
+    checkWin('empire', 'rebals');
   }
 
-  if (countFriendGame % 2 === 0) {
-    obj[cord].style.backgroundImage = 'url("./assets/Redstarbird.png")';
-    obj[cord].style.backgroundSize = 'cover';
-    cordsUsers.userBlack.push(cord);
-  } else {
-    obj[cord].style.backgroundImage = 'url("./assets/empire-icon-21.png")';
-    obj[cord].style.backgroundSize = 'cover';
-    cordsUsers.userBlue.push(cord);
+  if (isEmpty(cord)) {
+    if (countFriendGame % 2 === 0) {
+      obj[cord].style.backgroundImage = 'url("./assets/Redstarbird.png")';
+      obj[cord].style.backgroundSize = 'cover';
+      cordsUsers.userBlack.push(cord);
+    } else {
+      obj[cord].style.backgroundImage = 'url("./assets/empire-icon-21.png")';
+      obj[cord].style.backgroundSize = 'cover';
+      cordsUsers.userBlue.push(cord);
+    }
   }
 
   checkWin('empire', 'rebals');
 }
 
 function botGame(cord) {
-  arrayWins.splice(0, arrayWins.length);
-  localStorage.setItem('wins', []);
+  counter -= 2;
 
   if (isEmpty(cord)) {
     obj[cord].style.backgroundImage = "url('./assets/Redstarbird.png')";
     obj[cord].style.backgroundSize = 'cover';
     cordsUsers.userBlack.push(cord);
-    counter -= 1;
-    checkWin('empire win', 'rebals win', 'r2d2 win');
+    const test = checkWin('empire win', 'rebals win', 'r2d2 win');
+    if (test !== '') {
+      return test;
+    }
   }
 
-  if (counter < 0) {
-    return;
-  }
-
+  checkWin('empire win', 'rebals win', 'r2d2 win');
   let randomCords = randomTic();
   while (!isEmpty(randomCords)) {
+    if (counter < 0) {
+      const test2 = checkWin('empire win', 'rebals win', 'r2d2 win');
+      return test2;
+    }
+
     randomCords = randomTic();
   }
 
   cordsUsers.userBlue.push(randomCords);
-  // setTimeout(() => {
-  counter -= 1;
-  // obj[randomCords].style.backgroundColor = 'blue';
   obj[randomCords].style.backgroundImage = "url('./assets/r2d2.png')";
   obj[randomCords].style.backgroundSize = 'cover';
-  // }, 200);
-  checkWin('empire win', 'rebals win', 'r2d2 win');
+  const test3 = checkWin('empire win', 'rebals win', 'r2d2 win');
+  return test3;
 }
 
 function createTableCross(func) {
-  localStorage.setItem('wins', []);
   table.replaceChildren();
   for (let i = 0; i < 3; i += 1) {
     const tr = document.createElement('tr');
@@ -163,6 +173,7 @@ function createTableCross(func) {
 }
 
 prePlayMenu.addEventListener('submit', (event) => {
+  arrayWins.splice(0, arrayWins.length);
   if (chooseBot.checked === true) {
     document.querySelector('body').style.backgroundImage = 'url("./assets/star-wars-landscape-wallpapers-121180-589576-3287411.jpg")';
     createTableCross(botGame);
@@ -207,5 +218,4 @@ buttonMenu.addEventListener('click', () => {
   modalEnd.style.display = 'none';
   prePlayMenu.style.display = 'flex';
   localStorage.setItem('wins', '');
-  winsText.innerHTML = '';
 });

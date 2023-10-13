@@ -23,6 +23,7 @@ body{
   height: 110vh;
 
   background-image: url("./assets/UY3C3zc.jpg");
+  background-position: center;
   background-size: cover;
 }
 
@@ -52,9 +53,12 @@ body{
 
 .play-button{
   cursor: pointer;
+
   width: 80px;
   padding: 10px;
+
   background-color: gold;
+  border-radius: 10px;
 }
 
 .play-button:hover{
@@ -76,10 +80,17 @@ body{
   border: 1px solid black;
 }
 
+.win-message{
+  margin-bottom: 15px;
+  font-family: "Droid Sans", arial, verdana, sans-serif;
+  color: yellow;
+}
+
 .modal-end{
   position: absolute;
 
   display: none;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 
@@ -87,8 +98,9 @@ body{
   height: 110vh;
 
   background-color: rgb(128 128 128 / 85%);
-  
-  .win-wrapper{
+}
+
+.win-wrapper{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,8 +108,57 @@ body{
 
     width: 300px;
     height: 200px;
+    margin-bottom: 20px;
 
-    background-color: white;
+    background-color: rgb(0 0 0 / 90%);
+    border-radius: 10px;
+}
+
+
+.modal-end-empire{
+  position: absolute;
+
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 110vh;
+
+  background-color: rgb(228 17 17 / 55%);
+}
+
+.control-button{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.modal-end-rebals{
+  position: absolute;
+
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 110vh;
+
+  background-color: rgb(0 4 250 / 55%); 
+}
+
+
+.results{
+  position: absolute;
+  right: 400px;
+  border: 1px solid black;
+
+  @media screen and (width <= 1290px) {
+    right: 47%;
+    bottom: 50px; 
   }
 }
 
