@@ -4,6 +4,9 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: 'development',
+  optimization: {
+    minimize: false,
+  },
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
