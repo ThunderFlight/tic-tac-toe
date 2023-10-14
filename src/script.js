@@ -13,7 +13,7 @@ const arrWin = [
 let countBlack = 0;
 let countBlue = 0;
 const obj = {};
-const arrayWins = [];
+let arrayWins = [];
 let countFriendGame = 0;
 let counter = 10;
 const cordsUsers = {
@@ -44,6 +44,10 @@ function isEmpty(cords) {
 }
 
 function gameEnd(message) {
+  if (arrayWins.length >= 10) {
+    arrayWins = arrayWins.slice(1, arrayWins.length);
+  }
+
   arrayWins.push(message);
   localStorage.setItem('wins', JSON.stringify(arrayWins));
   document.querySelector('.results').replaceChildren();
@@ -83,12 +87,10 @@ function checkWin(empire, rebals, r2d2 = 'none') {
       }
 
       if (countBlack >= 3) {
-        console.log(2);
         return gameEnd(rebals);
       }
 
       if (countBlue >= 3) {
-        console.log(1);
         return r2d2 === 'none' ? gameEnd(empire) : gameEnd(r2d2);
       }
     }
@@ -121,7 +123,7 @@ function friendGame(cord) {
     }
   }
 
-  console.log(checkWin('empire', 'rebals'));
+  checkWin('empire', 'rebals');
 }
 
 function botGame(cord) {
