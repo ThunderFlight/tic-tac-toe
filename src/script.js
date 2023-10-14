@@ -24,19 +24,23 @@ const cordsUsers = {
 const table = document.querySelector('.table-tic-tac-toe');
 const buttonRestart = document.querySelector('.button-restart');
 const buttonMenu = document.querySelector('.button-back');
-const modalEnd = document.querySelector('.modal-end');
+const modalEnd = document.querySelector('#modal-end-game');
 const winMessage = document.querySelector('.win-message');
 const prePlayMenu = document.querySelector('.pre-play-menu');
 const chooseBot = document.querySelector('.input-choose-bot');
 const chooseFriend = document.querySelector('.input-choose-friend');
+const playButton = document.querySelector('.play-button');
+const body = document.querySelector('body');
 
 function randomTic() {
   return `${Math.floor(Math.random() * 3)},${Math.floor(Math.random() * 3)}`;
 }
 
 function isEmpty(cords) {
-  const objCords = obj[cords].style.backgroundImage;
-  return objCords !== 'url("./assets/Redstarbird.png")' && objCords !== 'url("./assets/r2d2.png")' && objCords !== 'url("./assets/empire-icon-21.png")';
+  const objCordsRebals = obj[cords].classList.contains('rebals');
+  const objCordsR2D2 = obj[cords].classList.contains('r2d2');
+  const objCordsEmpire = obj[cords].classList.contains('empire');
+  return objCordsRebals || objCordsR2D2 || objCordsEmpire;
 }
 
 function gameEnd(message) {
@@ -52,15 +56,19 @@ function gameEnd(message) {
   });
 
   winMessage.innerHTML = message;
-  modalEnd.style.display = 'null';
-  modalEnd.style.display = 'flex';
+  modalEnd.classList.remove('modal-end-off');
+  modalEnd.classList.add('modal-end');
+  modalEnd.classList.remove('modal-end-rebals');
+  modalEnd.classList.remove('modal-end-empire');
   if (message === 'rebals') {
-    modalEnd.className = 'modal-end-rebals';
+    modalEnd.classList.add('modal-end-rebals');
   }
 
   if (message === 'empire') {
-    modalEnd.className = 'modal-end-empire';
+    modalEnd.classList.add('modal-end-empire');
   }
+
+  return message;
 }
 
 function checkWin(empire, rebals, r2d2 = 'none') {
@@ -75,10 +83,12 @@ function checkWin(empire, rebals, r2d2 = 'none') {
       }
 
       if (countBlack >= 3) {
+        console.log(2);
         return gameEnd(rebals);
       }
 
       if (countBlue >= 3) {
+        console.log(1);
         return r2d2 === 'none' ? gameEnd(empire) : gameEnd(r2d2);
       }
     }
@@ -101,27 +111,24 @@ function friendGame(cord) {
     checkWin('empire', 'rebals');
   }
 
-  if (isEmpty(cord)) {
+  if (!isEmpty(cord)) {
     if (countFriendGame % 2 === 0) {
-      obj[cord].style.backgroundImage = 'url("./assets/Redstarbird.png")';
-      obj[cord].style.backgroundSize = 'cover';
+      obj[cord].classList.add('rebals');
       cordsUsers.userBlack.push(cord);
     } else {
-      obj[cord].style.backgroundImage = 'url("./assets/empire-icon-21.png")';
-      obj[cord].style.backgroundSize = 'cover';
+      obj[cord].classList.add('empire');
       cordsUsers.userBlue.push(cord);
     }
   }
 
-  checkWin('empire', 'rebals');
+  console.log(checkWin('empire', 'rebals'));
 }
 
 function botGame(cord) {
   counter -= 2;
 
-  if (isEmpty(cord)) {
-    obj[cord].style.backgroundImage = "url('./assets/Redstarbird.png')";
-    obj[cord].style.backgroundSize = 'cover';
+  if (!isEmpty(cord)) {
+    obj[cord].classList.add('rebals');
     cordsUsers.userBlack.push(cord);
     const test = checkWin('empire win', 'rebals win', 'r2d2 win');
     if (test !== '') {
@@ -131,7 +138,7 @@ function botGame(cord) {
 
   checkWin('empire win', 'rebals win', 'r2d2 win');
   let randomCords = randomTic();
-  while (!isEmpty(randomCords)) {
+  while (isEmpty(randomCords)) {
     if (counter < 0) {
       const test2 = checkWin('empire win', 'rebals win', 'r2d2 win');
       return test2;
@@ -141,8 +148,7 @@ function botGame(cord) {
   }
 
   cordsUsers.userBlue.push(randomCords);
-  obj[randomCords].style.backgroundImage = "url('./assets/r2d2.png')";
-  obj[randomCords].style.backgroundSize = 'cover';
+  obj[randomCords].classList.add('r2d2');
   const test3 = checkWin('empire win', 'rebals win', 'r2d2 win');
   return test3;
 }
@@ -160,7 +166,7 @@ function createTableCross(func) {
       td.className = 'cell';
       // eslint-disable-next-line no-loop-func
       td.addEventListener('click', () => {
-        if (!isEmpty(`${i},${j}`)) {
+        if (isEmpty(`${i},${j}`)) {
           return;
         }
 
@@ -172,24 +178,25 @@ function createTableCross(func) {
   }
 }
 
-prePlayMenu.addEventListener('submit', (event) => {
+playButton.addEventListener('click', () => {
   arrayWins.splice(0, arrayWins.length);
   if (chooseBot.checked === true) {
-    document.querySelector('body').style.backgroundImage = 'url("./assets/star-wars-landscape-wallpapers-121180-589576-3287411.jpg")';
+    body.className = 'rd2d2-background';
     createTableCross(botGame);
   } else if (chooseFriend.checked === true) {
-    document.querySelector('body').style.backgroundImage = "url('./assets/1313954.jpeg')";
+    body.className = 'fight-background';
     createTableCross(friendGame);
   }
 
-  event.preventDefault();
-  prePlayMenu.style.display = 'none';
+  prePlayMenu.classList.remove('pre-play-menu');
+  prePlayMenu.classList.add('pre-play-menu-off');
 });
 
 buttonRestart.addEventListener('click', () => {
   for (let i = 0; i < 3; i += 1) {
     for (let j = 0; j < 3; j += 1) {
-      obj[`${i},${j}`].style.backgroundImage = '';
+      obj[`${i},${j}`].className = '';
+      obj[`${i},${j}`].className = 'cell';
     }
   }
 
@@ -199,13 +206,15 @@ buttonRestart.addEventListener('click', () => {
   cordsUsers.userBlack = [];
   cordsUsers.userBlue = [];
   countFriendGame = 0;
-  modalEnd.style.display = 'none';
+  modalEnd.classList.remove('modal-end');
+  modalEnd.classList.add('modal-end-off');
 });
 
 buttonMenu.addEventListener('click', () => {
   for (let i = 0; i < 3; i += 1) {
     for (let j = 0; j < 3; j += 1) {
-      obj[`${i},${j}`].style.backgroundImage = '';
+      obj[`${i},${j}`].className = '';
+      obj[`${i},${j}`].className = 'cell';
     }
   }
 
@@ -215,7 +224,9 @@ buttonMenu.addEventListener('click', () => {
   cordsUsers.userBlack = [];
   cordsUsers.userBlue = [];
   countFriendGame = 0;
-  modalEnd.style.display = 'none';
-  prePlayMenu.style.display = 'flex';
+  modalEnd.classList.remove('modal-end');
+  modalEnd.classList.add('modal-end-off');
+  prePlayMenu.classList.add('pre-play-menu');
+  prePlayMenu.classList.remove('pre-play-menu-off');
   localStorage.setItem('wins', '');
 });

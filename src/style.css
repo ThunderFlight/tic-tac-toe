@@ -6,8 +6,37 @@
 }
 
 body{
-  background-image: url("./assets/star-wars-landscape-wallpapers-121180-589576-3287411.jpg");
+  background-position: center;
   background-size: cover;
+}
+
+.rd2d2-background{
+  background-image: url("./assets/r2d2Background.webp");
+}
+
+.fight-background{
+  background-image: url("./assets/r2d2GameFight.webp");
+}
+
+.rebals{
+  background-image: url("./assets/Redstarbird.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;
+}
+
+.r2d2{
+  background-image: url('./assets/r2d2.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;
+}
+
+.empire{
+  background-image: url('./assets/empire-icon-21.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 90%;  
 }
 
 .pre-play-menu{
@@ -22,9 +51,20 @@ body{
   width: 100%;
   height: 110vh;
 
-  background-image: url("./assets/UY3C3zc.jpg");
+  background-image: url("./assets/starWarsPrePlayMenu.jpg");
   background-position: center;
   background-size: cover;
+}
+
+.pre-play-menu-off{
+  display: none;
+}
+
+.center-element{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 160px;
 }
 
 .choose-with-by-whom-play{
@@ -55,6 +95,7 @@ body{
   cursor: pointer;
 
   width: 80px;
+  margin: 0 auto;
   padding: 10px;
 
   background-color: gold;
@@ -88,8 +129,9 @@ body{
 
 .modal-end{
   position: absolute;
+  z-index: 1;
 
-  display: none;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -98,6 +140,10 @@ body{
   height: 110vh;
 
   background-color: rgb(128 128 128 / 85%);
+}
+
+.modal-end-off{
+  display: none;
 }
 
 .win-wrapper{
@@ -116,16 +162,6 @@ body{
 
 
 .modal-end-empire{
-  position: absolute;
-
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 110vh;
-
   background-color: rgb(228 17 17 / 55%);
 }
 
@@ -137,16 +173,6 @@ body{
 }
 
 .modal-end-rebals{
-  position: absolute;
-
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 110vh;
-
   background-color: rgb(0 4 250 / 55%); 
 }
 
@@ -169,25 +195,41 @@ main {
   height: 90vh;
 }
 
-footer{
+.footer{
   display: flex;
   align-items: center;
   justify-content: space-around;
 
   height: 9.5vh;
   margin: 2px;
-
-  border: 3px solid black;
-  border-radius: 5px;
+  
+  backdrop-filter: blur(2px);
+  border-radius: 5px
 }
 
 .footer-github{
+  font-family: Kufam, sans-serif;
   font-size: 30px;
-  color: black;
+  color: rgb(143 14 14);
   text-decoration: none;
+
+  transition: all 0.5s;
+}
+
+.footer-github:hover{
+  color: white;
 }
 
 .footer-rsschool{
   width: 100px;
   height: 50px;
+}
+
+.footer-date{
+  font-family: Kufam, sans-serif;
+  font-size: 17px;
+  color: rgb(143 14 14);
+  text-decoration: none;
+
+  transition: all 0.5s;
 }
