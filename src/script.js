@@ -13,9 +13,11 @@ const arrWin = [
 let countBlack = 0;
 let countBlue = 0;
 const obj = {};
-let arrayWins = [];
+const arrayWinsBot = [];
+const arrayWinsFriend = [];
 let countFriendGame = 0;
 let counter = 10;
+let sideChoose;
 const cordsUsers = {
   userBlue: [],
   userBlack: [],
@@ -31,6 +33,9 @@ const chooseBot = document.querySelector('.input-choose-bot');
 const chooseFriend = document.querySelector('.input-choose-friend');
 const playButton = document.querySelector('.play-button');
 const body = document.querySelector('body');
+const chooseSide = document.querySelector('#side-modal-choose');
+const buttonDarkSide = document.querySelector('.choose-dark-side');
+const buttonLightSide = document.querySelector('.choose-light-side');
 
 function randomTic() {
   return `${Math.floor(Math.random() * 3)},${Math.floor(Math.random() * 3)}`;
@@ -43,15 +48,18 @@ function isEmpty(cords) {
   return objCordsRebals || objCordsR2D2 || objCordsEmpire;
 }
 
-function gameEnd(message) {
+function gameEnd(message, arrayWins, nameArray) {
+  const getName = nameArray === 'bot' ? 'bot' : 'friend';
   if (arrayWins.length >= 10) {
-    arrayWins = arrayWins.slice(1, arrayWins.length);
+    const temporarily = arrayWins.slice(1, arrayWins.length);
+    arrayWins.splice(0, arrayWins.length);
+    arrayWins.push(temporarily);
   }
 
   arrayWins.push(message);
-  localStorage.setItem('wins', JSON.stringify(arrayWins));
+  localStorage.setItem(getName, JSON.stringify(arrayWins));
   document.querySelector('.results').replaceChildren();
-  JSON.parse(localStorage.getItem('wins')).map((item) => {
+  JSON.parse(localStorage.getItem(getName)).map((item) => {
     const rowTr = document.createElement('tr');
     const winsText = document.createElement('td');
     winsText.innerHTML = item;
@@ -75,7 +83,7 @@ function gameEnd(message) {
   return message;
 }
 
-function checkWin(empire, rebals, r2d2 = 'none') {
+function checkWin(empire, rebals, arrayWins, nameArray, r2d2 = 'none') {
   for (let i = 0; i < arrWin.length; i += 1) {
     for (let j = 0; j < arrWin[i].length; j += 1) {
       if (cordsUsers.userBlack.includes(arrWin[i][j])) {
@@ -87,11 +95,11 @@ function checkWin(empire, rebals, r2d2 = 'none') {
       }
 
       if (countBlack >= 3) {
-        return gameEnd(rebals);
+        return gameEnd(rebals, arrayWins, nameArray);
       }
 
       if (countBlue >= 3) {
-        return r2d2 === 'none' ? gameEnd(empire) : gameEnd(r2d2);
+        return r2d2 === 'none' ? gameEnd(empire, arrayWins, nameArray) : gameEnd(r2d2, arrayWins, nameArray);
       }
     }
 
@@ -100,7 +108,7 @@ function checkWin(empire, rebals, r2d2 = 'none') {
   }
 
   if (counter < 0) {
-    return gameEnd('draw');
+    return gameEnd('draw', arrayWins, nameArray);
   }
 
   return '';
@@ -109,21 +117,23 @@ function checkWin(empire, rebals, r2d2 = 'none') {
 function friendGame(cord) {
   countFriendGame += 1;
   counter -= 1;
+  const checkSide = sideChoose === 'empire' ? 'empire' : 'rebals';
+  const checkSideRevers = sideChoose === 'empire' ? 'rebals' : 'empire';
   if (counter < 0) {
-    checkWin('empire', 'rebals');
+    checkWin(checkSide, checkSideRevers, arrayWinsFriend, 'friend');
   }
 
   if (!isEmpty(cord)) {
     if (countFriendGame % 2 === 0) {
-      obj[cord].classList.add('rebals');
+      obj[cord].classList.add(checkSideRevers);
       cordsUsers.userBlack.push(cord);
     } else {
-      obj[cord].classList.add('empire');
+      obj[cord].classList.add(checkSide);
       cordsUsers.userBlue.push(cord);
     }
   }
 
-  checkWin('empire', 'rebals');
+  checkWin(checkSide, checkSideRevers, arrayWinsFriend, 'friend');
 }
 
 function botGame(cord) {
@@ -132,17 +142,17 @@ function botGame(cord) {
   if (!isEmpty(cord)) {
     obj[cord].classList.add('rebals');
     cordsUsers.userBlack.push(cord);
-    const test = checkWin('empire win', 'rebals win', 'r2d2 win');
+    const test = checkWin('empire win', 'rebals win', arrayWinsBot, 'bot', 'r2d2 win');
     if (test !== '') {
       return test;
     }
   }
 
-  checkWin('empire win', 'rebals win', 'r2d2 win');
+  checkWin('empire win', 'rebals win', arrayWinsBot, 'r2d2 win');
   let randomCords = randomTic();
   while (isEmpty(randomCords)) {
     if (counter < 0) {
-      const test2 = checkWin('empire win', 'rebals win', 'r2d2 win');
+      const test2 = checkWin('empire win', 'rebals win', arrayWinsBot, 'bot', 'r2d2 win');
       return test2;
     }
 
@@ -151,7 +161,7 @@ function botGame(cord) {
 
   cordsUsers.userBlue.push(randomCords);
   obj[randomCords].classList.add('r2d2');
-  const test3 = checkWin('empire win', 'rebals win', 'r2d2 win');
+  const test3 = checkWin('empire win', 'rebals win', arrayWinsBot, 'bot', 'r2d2 win');
   return test3;
 }
 
@@ -180,12 +190,25 @@ function createTableCross(func) {
   }
 }
 
+buttonDarkSide.addEventListener('click', () => {
+  chooseSide.classList.add('modal-choose-side-off');
+  chooseSide.classList.remove('modal-choose-side');
+  sideChoose = 'empire';
+});
+
+buttonLightSide.addEventListener('click', () => {
+  chooseSide.classList.add('modal-choose-side-off');
+  chooseSide.classList.remove('modal-choose-side');
+  sideChoose = 'rebals';
+});
+
 playButton.addEventListener('click', () => {
-  arrayWins.splice(0, arrayWins.length);
   if (chooseBot.checked === true) {
     body.className = 'rd2d2-background';
     createTableCross(botGame);
   } else if (chooseFriend.checked === true) {
+    chooseSide.classList.remove('modal-choose-side-off');
+    chooseSide.classList.add('modal-choose-side');
     body.className = 'fight-background';
     createTableCross(friendGame);
   }
@@ -230,5 +253,4 @@ buttonMenu.addEventListener('click', () => {
   modalEnd.classList.add('modal-end-off');
   prePlayMenu.classList.add('pre-play-menu');
   prePlayMenu.classList.remove('pre-play-menu-off');
-  localStorage.setItem('wins', '');
 });

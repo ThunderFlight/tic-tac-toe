@@ -10,6 +10,52 @@ body{
   background-size: cover;
 }
 
+.modal-choose-side{
+  position: absolute;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  height: 110%;
+}
+
+.modal-choose-side-off{
+  display: none;
+}
+
+.choose-dark-side{
+  cursor: pointer;
+
+  width: 50%;
+  height: 100%;
+
+  background-image: url('./assets/darth-vader-main_4560aff7-1.webp');
+  background-position: center;
+  background-position-y: 30px;
+  background-size: cover;
+}
+
+.choose-dark-side:hover{
+  box-shadow: inset 0 50px 40px 23px rgb(0 0 0 / 80%);
+}
+
+.choose-light-side{
+  cursor: pointer;
+
+  width: 50%;
+  height: 100%;
+
+  background-image: url('./assets/rosario_dawson_ahsoka_tano_mandalorian.0-1.webp');
+  background-position: center;
+  background-size: cover;
+}
+
+.choose-light-side:hover{
+  box-shadow: inset 0 50px 35px 19px rgb(255 255 255 / 80%);
+}
+
 .rd2d2-background{
   background-image: url("./assets/r2d2Background.webp");
 }
@@ -75,12 +121,14 @@ body{
 }
 
 .custom-label{
+  cursor: pointer;
   font-family: Kufam, sans-serif;
   font-family: 'Martian Mono', monospace;
   color:yellow;
 }
 
 .custom-input{
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   margin-right: 20px;
