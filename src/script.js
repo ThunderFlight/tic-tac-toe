@@ -53,7 +53,11 @@ function gameEnd(message, arrayWins, nameArray) {
   if (arrayWins.length >= 10) {
     const temporarily = arrayWins.slice(1, arrayWins.length);
     arrayWins.splice(0, arrayWins.length);
-    arrayWins.push(temporarily);
+    temporarily.forEach((item) => {
+      arrayWins.push(item);
+    });
+    console.log(arrayWins);
+    localStorage.setItem(getName, JSON.stringify(arrayWins));
   }
 
   arrayWins.push(message);

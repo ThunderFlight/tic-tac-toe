@@ -98,8 +98,8 @@ body{
   height: 110vh;
 
   background-image: url("./assets/starWarsPrePlayMenu.jpg");
-  background-position: center;
-  background-size: cover;
+  background-position:center;
+  background-size: cover
 }
 
 .pre-play-menu-off{
@@ -260,6 +260,7 @@ main {
   font-size: 30px;
   color: rgb(143 14 14);
   text-decoration: none;
+  text-shadow: 2px 2px 0 rgb(0 0 0);
 
   transition: all 0.5s;
 }
@@ -274,10 +275,17 @@ main {
 }
 
 .footer-date{
+  cursor: pointer;
+
   font-family: Kufam, sans-serif;
   font-size: 17px;
   color: rgb(143 14 14);
   text-decoration: none;
+  text-shadow: 2px 2px 0 rgb(0 0 0);
 
   transition: all 0.5s;
+}
+
+.footer-date:hover{
+  color: white;
 }
